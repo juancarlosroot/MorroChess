@@ -24,4 +24,6 @@ public class General {
     public static final int PIECE_KNIGHT= 3;
     public static final int PIECE_ROOK  = 4;
     public static final int PIECE_PAWN  = 5;
+
+
 }

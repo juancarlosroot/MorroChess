@@ -1,5 +1,6 @@
 package com.cinvestav.juancarlosroot.morrochess;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     BoardAdapter adapter;
     int width;
     Square lastSelected = null;
-    View lastView = null;
+    Context context;
 
 
     @Override
@@ -39,12 +41,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
         squares = new ArrayList<>();
 
         mGridLayout = (GridView)findViewById(R.id.GridLayoutBoard);
 
 
         width = getWidthDimension();
+        General general = new General();
 
         init.execute();
 
@@ -55,10 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     if(getLastSelected() != null)
                     {
-                        getLastView().setBackgroundColor(getLastSelected().getColor());
+                        getLastSelected().getView().setBackgroundColor(getLastSelected().getColor());
                     }
                     setLastSelected(squares.get(position));
-                    setLastView(view);
 
                     view.setBackgroundColor(Color.rgb(224,224,224));
                 }
@@ -69,96 +72,88 @@ public class MainActivity extends AppCompatActivity {
 //        General.Players.white;
     }
 
-
-    private void initSquares()
-    {
-        boolean light = false;
-        for(int x = 0; x < 8; x++) {
-            if (light)
-                light = false;
-            else
-                light = true;
-
-            boolean add = light;
-
-            //Agregar el tablero
-            for (int y = 0; y < 8; y++) {
-                Player player = null;
-                Square square;
-                Piece piece = null;
-                int color;
-                if(x <= 1)
-                    player = new Player(General.BLACK);
-
-                else if(x>=6)
-                    player = new Player(General.WHITE);
-
-                if(x == 1 || x == 6)
-                {
-                    /*Pawn*/
-                    if(player != null)
-                        piece = new Pawn(player, x, y, this);
-                }
-
-                if(x == 0 || x ==7)
-                {
-                    if(y == 0 || y == 7)
-                    {
-                        /*Rook*/
-                        if(player != null)
-                            piece = new Rook(player, x, y, this);
-                    }
-                    else if(y == 1 || y == 6)
-                    {
-                        /*Knight*/
-                        if(player != null)
-                            piece = new Knight(player, x, y, this);
-
-                    }
-                    else if(y == 2 || y == 5)
-                    {
-                        /*Bishop*/
-                        if(player != null)
-                            piece = new Bishop(player, x, y, this);
-                    }
-                    else if(y == 3)
-                    {
-                        /*Queen*/
-                        if(player != null)
-                            piece = new Queen(player, x, y, this);
-                    }
-                    else if(y == 4)
-                    {
-                        /*King*/
-                        if(player != null)
-                            piece = new King(player, x, y, this);
-                    }
-                }
-
-
-                if(add)
-                {
-                    color = Color.rgb(218, 156, 105);
-                    add =false;
-                }
-                else
-                {
-                    color = Color.rgb(130,53,59);
-                    add = true;
-                }
-                squares.add(
-                        new Square(x, y, width/8, piece, color)
-                );
-            }
-        }
-        adapter = new BoardAdapter(this, squares);
-
-    }
-
     AsyncTask init = new AsyncTask() {
         @Override
         protected Object doInBackground(Object[] params) {
-            initSquares();
+            boolean light = false;
+            for(int x = 0; x < 8; x++) {
+                if (light)
+                    light = false;
+                else
+                    light = true;
+
+                boolean add = light;
+
+                //Agregar el tablero
+                for (int y = 0; y < 8; y++) {
+                    Player player = null;
+                    Square square;
+                    Piece piece = null;
+                    int color;
+                    if(x <= 1)
+                        player = new Player(General.BLACK);
+
+                    else if(x>=6)
+                        player = new Player(General.WHITE);
+
+                    if(x == 1 || x == 6)
+                    {
+                    /*Pawn*/
+                        if(player != null)
+                            piece = new Pawn(player, x, y, context);
+                    }
+
+                    if(x == 0 || x ==7)
+                    {
+                        if(y == 0 || y == 7)
+                        {
+                        /*Rook*/
+                            if(player != null)
+                                piece = new Rook(player, x, y, context);
+                        }
+                        else if(y == 1 || y == 6)
+                        {
+                        /*Knight*/
+                            if(player != null)
+                                piece = new Knight(player, x, y, context);
+
+                        }
+                        else if(y == 2 || y == 5)
+                        {
+                        /*Bishop*/
+                            if(player != null)
+                                piece = new Bishop(player, x, y, context);
+                        }
+                        else if(y == 3)
+                        {
+                        /*Queen*/
+                            if(player != null)
+                                piece = new Queen(player, x, y, context);
+                        }
+                        else if(y == 4)
+                        {
+                        /*King*/
+                            if(player != null)
+                                piece = new King(player, x, y, context);
+                        }
+                    }
+
+
+                    if(add)
+                    {
+                        color = Color.rgb(218, 156, 105);
+                        add =false;
+                    }
+                    else
+                    {
+                        color = Color.rgb(130,53,59);
+                        add = true;
+                    }
+                    squares.add(
+                            new Square(x, y, width/8, piece, color)
+                    );
+                }
+            }
             return null;
         }
 
@@ -166,8 +161,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
 
-            mGridLayout.setMinimumHeight(width);
+            adapter = new BoardAdapter((MainActivity) context, squares, width);
             mGridLayout.setAdapter(adapter);
+            mGridLayout.setColumnWidth(width/8);
+
+            ViewGroup.LayoutParams layoutParams = mGridLayout.getLayoutParams();
+            layoutParams.height = width; //this is in pixels
+            mGridLayout.setLayoutParams(layoutParams);
         }
     };
     private int getWidthDimension()
@@ -186,11 +186,4 @@ public class MainActivity extends AppCompatActivity {
         this.lastSelected = lastSelected;
     }
 
-    public View getLastView() {
-        return lastView;
-    }
-
-    public void setLastView(View lastView) {
-        this.lastView = lastView;
-    }
 }

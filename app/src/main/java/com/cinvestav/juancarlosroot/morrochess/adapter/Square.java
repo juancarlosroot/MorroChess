@@ -1,6 +1,7 @@
 package com.cinvestav.juancarlosroot.morrochess.adapter;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.cinvestav.juancarlosroot.morrochess.pieces.Piece;
 
@@ -14,6 +15,7 @@ public class Square {
     private int width;
     private Piece piece = null;
     private int color;
+    private View view;
 
     public Square(int y, int x, int width, Piece piece, int color) {
         this.y = y;
@@ -68,5 +70,13 @@ public class Square {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 }

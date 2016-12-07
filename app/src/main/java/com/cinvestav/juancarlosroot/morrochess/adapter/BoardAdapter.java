@@ -4,15 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.cinvestav.juancarlosroot.morrochess.MainActivity;
 import com.cinvestav.juancarlosroot.morrochess.R;
+import com.cinvestav.juancarlosroot.morrochess.general.General;
 
 import java.util.ArrayList;
 
@@ -24,11 +27,13 @@ public class BoardAdapter extends BaseAdapter {
     Context context;
     ArrayList<Square> list;
     Square lastSelected = null;
+    int device_width;
 
-    public BoardAdapter(MainActivity context, ArrayList<Square> list)
+    public BoardAdapter(MainActivity context, ArrayList<Square> list, int device_width)
     {
         this.context = context;
         this.list = list;
+        this.device_width = device_width;
     }
 
     @Override
@@ -54,20 +59,37 @@ public class BoardAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.square_layout, parent, false);
         }
 
+        convertView.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, device_width/8));
+        final View finalConvertView = convertView;
+
         final Square item = getItem(position);
+        item.setView(convertView);
+
+        AsyncTask asyncTask =  new AsyncTask() {
+            @Override
+            protected Bitmap doInBackground(Object[] params) {
+
+
+                Bitmap image = null;
+                if(item.getPiece() != null) {
+                    Bitmap source = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites);
+                    image = Bitmap.createBitmap(source, item.getPiece().getStart_x(), item.getPiece().getStart_y(), item.getPiece().getWidth(), item.getPiece().getWidth(), null, false);
+                }
+                return image;
+            }
+
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                ImageView imageView = (ImageView) finalConvertView.findViewById(R.id.imageView);
+                imageView.setImageBitmap(Bitmap.createScaledBitmap((Bitmap)o, item.getWidth(), item.getWidth(), false));
+            }
+        };
 
         if(item.getPiece() != null)
-        {
-            ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            asyncTask.execute();
 
-            Bitmap source = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites);
-            Bitmap image = Bitmap.createBitmap(source, item.getPiece().getStart_x(),  item.getPiece().getStart_y(), item.getPiece().getWidth(), item.getPiece().getWidth(), null, false);
-
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(image, 100, 100, false));
-        }
-
-        convertView.setMinimumWidth(item.getWidth());
-        convertView.setMinimumHeight(item.getWidth());
         convertView.setBackgroundColor(item.getColor());
 
         return convertView;
