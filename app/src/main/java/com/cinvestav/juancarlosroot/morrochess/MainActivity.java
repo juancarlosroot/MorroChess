@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.cinvestav.juancarlosroot.morrochess.adapter.BoardAdapter;
 import com.cinvestav.juancarlosroot.morrochess.adapter.Square;
@@ -64,6 +65,21 @@ public class MainActivity extends AppCompatActivity {
                     setLastSelected(squares.get(position));
 
                     view.setBackgroundColor(Color.rgb(224,224,224));
+                }
+                else
+                {
+                    if(getLastSelected() != null)
+                    {
+                        squares.get(position).setPiece(getLastSelected().getPiece());
+                        ImageView tmpImageView = (ImageView)getLastSelected().getView().findViewById(R.id.imageView);
+                        tmpImageView.setImageBitmap(null);
+
+                        tmpImageView = (ImageView)squares.get(position).getView().findViewById(R.id.imageView);
+                        tmpImageView.setImageBitmap(getLastSelected().getPiece().getImage());
+
+                        getLastSelected().setPiece(null);
+                        getLastSelected().getView().setBackgroundColor(getLastSelected().getColor());
+                    }
                 }
             }
         });

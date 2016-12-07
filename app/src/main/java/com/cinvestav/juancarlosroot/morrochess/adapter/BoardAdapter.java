@@ -83,7 +83,9 @@ public class BoardAdapter extends BaseAdapter {
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 ImageView imageView = (ImageView) finalConvertView.findViewById(R.id.imageView);
-                imageView.setImageBitmap(Bitmap.createScaledBitmap((Bitmap)o, item.getWidth(), item.getWidth(), false));
+                Bitmap resized = Bitmap.createScaledBitmap((Bitmap)o, item.getWidth(), item.getWidth(), false);
+                item.getPiece().setImage(resized);
+                imageView.setImageBitmap(resized);
             }
         };
 

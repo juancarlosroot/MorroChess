@@ -86,5 +86,7 @@ public class Piece {
         this.height = height;
     }
 
-    private void setImage(){}
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
 }
