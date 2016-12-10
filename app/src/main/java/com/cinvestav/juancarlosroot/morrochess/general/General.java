@@ -25,5 +25,11 @@ public class General {
     public static final int PIECE_ROOK  = 4;
     public static final int PIECE_PAWN  = 5;
 
+    public static final int PIECE_VALUE_KING  = 200;
+    public static final int PIECE_VALUE_ROOK  = 5;
+    public static final int PIECE_VALUE_QUEEN = 9;
+    public static final int PIECE_VALUE_BISHOP= 3;
+    public static final int PIECE_VALUE_KNIGHT= 3;
+    public static final int PIECE_VALUE_PAWN  = 1;
 
 }

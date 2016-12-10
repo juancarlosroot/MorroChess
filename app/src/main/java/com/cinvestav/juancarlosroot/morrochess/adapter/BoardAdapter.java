@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cinvestav.juancarlosroot.morrochess.MainActivity;
 import com.cinvestav.juancarlosroot.morrochess.R;
@@ -26,14 +27,15 @@ import java.util.ArrayList;
 public class BoardAdapter extends BaseAdapter {
     Context context;
     ArrayList<Square> list;
-    Square lastSelected = null;
+    boolean update;
     int device_width;
 
-    public BoardAdapter(MainActivity context, ArrayList<Square> list, int device_width)
+    public BoardAdapter(MainActivity context, ArrayList<Square> list, int device_width, boolean update)
     {
         this.context = context;
         this.list = list;
         this.device_width = device_width;
+        this.update = update;
     }
 
     @Override
@@ -65,14 +67,18 @@ public class BoardAdapter extends BaseAdapter {
         final Square item = getItem(position);
         item.setView(convertView);
 
+        TextView textView = (TextView) finalConvertView.findViewById(R.id.textView);
+        textView.setText((item.getPiece() == null ? "null" : "no null"));
+
         AsyncTask asyncTask =  new AsyncTask() {
             @Override
             protected Bitmap doInBackground(Object[] params) {
 
 
                 Bitmap image = null;
+
+                Bitmap source = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites);
                 if(item.getPiece() != null) {
-                    Bitmap source = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprites);
                     image = Bitmap.createBitmap(source, item.getPiece().getStart_x(), item.getPiece().getStart_y(), item.getPiece().getWidth(), item.getPiece().getWidth(), null, false);
                 }
                 return image;
@@ -89,8 +95,25 @@ public class BoardAdapter extends BaseAdapter {
             }
         };
 
+        if(!update)
+        {
         if(item.getPiece() != null)
             asyncTask.execute();
+        }
+        else
+        {
+            if(item.getPiece() != null)
+            {
+                ImageView imageView = (ImageView) finalConvertView.findViewById(R.id.imageView);
+                imageView.setImageBitmap(item.getPiece().getImage());
+            }
+            else
+            {
+                ImageView imageView = (ImageView) finalConvertView.findViewById(R.id.imageView);
+                imageView.setImageBitmap(null);
+
+            }
+        }
 
         convertView.setBackgroundColor(item.getColor());
 

@@ -17,7 +17,7 @@ public class Square {
     private int color;
     private View view;
 
-    public Square(int y, int x, int width, Piece piece, int color) {
+    public Square(int x, int y, int width, Piece piece, int color) {
         this.y = y;
         this.x = x;
         this.color = color;
@@ -25,7 +25,7 @@ public class Square {
         this.width = width;
     }
 
-    public Square(int y, int x, int width,int color) {
+    public Square(int x, int y, int width,int color) {
         this.y = y;
         this.x = x;
         this.color = color;

@@ -11,11 +11,29 @@
     <GridView
         android:id="@+id/GridLayoutBoard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:numColumns="8"
         android:rowCount="8"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
     </GridView>
+
+    <TextView
+        android:text="Turno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/GridLayoutBoard"
+        android:layout_marginStart="12dp"
+        android:textSize="@dimen/big_size_text"
+        android:id="@+id/textView2" />
+    <TextView
+        android:text="Turno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView2"
+        android:layout_marginStart="24dp"
+        android:textSize="@dimen/big_size_text"
+        android:id="@+id/textView3" />
+
 </RelativeLayout>

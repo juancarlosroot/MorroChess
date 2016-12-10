@@ -2,6 +2,7 @@ package com.cinvestav.juancarlosroot.morrochess.pieces;
 
 import android.content.Context;
 
+import com.cinvestav.juancarlosroot.morrochess.MainActivity;
 import com.cinvestav.juancarlosroot.morrochess.general.General;
 import com.cinvestav.juancarlosroot.morrochess.general.Player;
 
@@ -18,7 +19,8 @@ public class King extends Piece{
         this.player = player;
         this.x = x;
         this.y = y;
-        this.PIECE = General.PIECE_PAWN;
+        this.PIECE = General.PIECE_KING;
+        this.VALUE = General.PIECE_VALUE_KING;
         if(player != null)
             setImage();
     }
@@ -38,5 +40,23 @@ public class King extends Piece{
             start_y = General.IMAGE_HEIGHT/2;
         }
 
+
+    }
+
+    public Boolean isValidMove(int toX, int toY)
+    {
+        if(toX == this.x - 1 && (toY == this.y - 1 || toY == this.y || toY == this.y + 1))
+            return true;
+        if(toX == this.x && (toY == this.y - 1 || toY == this.y || toY == this.y + 1))
+            return true;
+        if(toX == this.x + 1 && (toY == this.y - 1 || toY == this.y || toY == this.y + 1))
+            return true;
+
+        return false;
+    }
+
+    public Boolean isPieceBetween(int toX, int toY)
+    {
+        return true;
     }
 }

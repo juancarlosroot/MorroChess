@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import com.cinvestav.juancarlosroot.morrochess.general.General;
 import com.cinvestav.juancarlosroot.morrochess.general.Player;
 
+import java.util.ArrayList;
+import java.util.Queue;
+
 /**
  * Created by juancarlosroot on 12/6/16.
  */
@@ -16,11 +19,12 @@ public class Piece {
     int x;
     int y;
     Player player;
-    public static int PIECE;
+    int PIECE;
     int start_x;
     int start_y;
     int width;
     int height;
+    int VALUE;
 
     public Bitmap getImage() {
         return image;
@@ -50,7 +54,7 @@ public class Piece {
         this.player = player;
     }
 
-    public static int getPIECE() {
+    public int getPIECE() {
         return PIECE;
     }
 
@@ -89,4 +93,33 @@ public class Piece {
     public void setImage(Bitmap image) {
         this.image = image;
     }
+
+    public Boolean isValidMove(int toX, int toY)
+    {
+        return null;
+    }
+
+    public Boolean isPieceBetween(int toX, int toY)
+    {
+        return null;
+    }
+
+    public boolean isIsolated(){return false;}
+
+    public int getVALUE() {
+        return VALUE;
+    }
+
+    public void setVALUE(int VALUE) {
+        this.VALUE = VALUE;
+    }
+
+    public Queue numberOfMoves()
+    {
+        return null;
+    }
+    public boolean isFirstMove() {
+        return false;
+    }
+
 }
