@@ -31,6 +31,7 @@ public class Pawn extends Piece{
         this.VALUE = General.PIECE_VALUE_PAWN;
         if(player != null)
             setImage();
+        setFirstMove(false);
     }
 
     private void setImage()
@@ -52,7 +53,7 @@ public class Pawn extends Piece{
 
     public Boolean isValidMove(int toX, int toY)
     {
-
+        setFirstMove(false);
         if(player.getI_player() == General.WHITE)
         {
 
@@ -127,6 +128,8 @@ public class Pawn extends Piece{
     {
         if(player.getI_player() == General.WHITE)
         {
+            if(this.x - 1 < 0)
+                return false;
             //MainActivity.getSquares().get(((this.x - 1) * 8) + y
             if(toY == this.y - 1)
             {
@@ -154,6 +157,9 @@ public class Pawn extends Piece{
         }
         else
         {
+            if(this.x + 1 >= 8)
+                return false;
+
             if(toY == this.y - 1)
             {
                 if(toX == this.x + 1 && MainActivity.getSquares().get(((toX) * 8) + toY) != null)
@@ -181,15 +187,15 @@ public class Pawn extends Piece{
     }
 
     public boolean isFirstMove() {
-        if(x == 1 && General.BLACK == player.getI_player())
-            setFirstMove(true);
-        else if(x == 6 && General.WHITE == player.getI_player())
-            setFirstMove(true);
         return firstMove;
     }
 
     private void setFirstMove(boolean firstMove) {
         this.firstMove = firstMove;
+        if(x == 1 && General.BLACK == player.getI_player())
+            this.firstMove = true;
+        else if(x == 6 && General.WHITE == player.getI_player())
+            this.firstMove = true;
     }
 
     public boolean isIsolated()

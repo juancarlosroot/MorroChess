@@ -36,11 +36,17 @@ public class Minimax {
     }
 
     public int[] generateMoves(Player player) {
+
+        /*Pawns*/
+
+
+        return null;
+    }
+
+    private int[] generatePawnsMoves(Player player){
         Player tmpPlayer = player;
         int i_counter = 0;
-        /*Pawns*/
         for (Piece n : tmpPlayer.getL_pawns()) {
-            setActualInteger( (1 * 8) + 1 );
             if (n.isValidMove(
                     n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 2 : -2),
                     n.getY() )
@@ -64,13 +70,20 @@ public class Minimax {
                 {
                     int []res = new int[2];
                     res[0] = (n.getX() * 8) + n.getY();
-                    res[1] = (n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 2 : -2) * 8) + n.getY();
+
+                    res[1] = (
+                            (
+                                    n.getX() +
+                                            (n.getPlayer().getI_player() == General.BLACK ? 2 : -2)
+                            ) * 8) + n.getY();
                     return res;
                 }
             }
-            if (n.isValidMove(
-                    n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1),
-                    n.getY() )
+            if (n.getX() + 1 < 8
+                    &&
+                    n.isValidMove(
+                            n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1),
+                            n.getY() )
                     &&
                     n.isPieceBetween(
                             n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1),
@@ -78,8 +91,9 @@ public class Minimax {
                     )
                     &&
                     MainActivity.getSquares().get(
-                            ((n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1))
-                                    * 8) + n.getY()
+                            (
+                                    ((n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1))
+                                    )* 8) + n.getY()
                     ).getPiece() == null
                     )
 
@@ -88,10 +102,17 @@ public class Minimax {
                 i_counter++;
                 int []res = new int[2];
                 res[0] = (n.getX() * 8) + n.getY();
-                res[1] = (n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1) * 8) + n.getY();
+                res[1] = (
+                        (
+                                n.getX() +
+                                        (n.getPlayer().getI_player() == General.BLACK ? 1 : -1) )
+                                * 8
+                ) + n.getY();
+
                 return res;
             }
-            if (n.isValidMove(
+            if (n.getY() + 1 < 8
+                    && n.isValidMove(
                     n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1),
                     n.getY() + 1)
                     &&
@@ -107,7 +128,7 @@ public class Minimax {
                     &&
                     MainActivity.getSquares().get(
                             ((n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1))
-                                    * 8) + n.getY() - 1
+                                    * 8) + n.getY() + 1
                     ).getPiece().getPlayer().getI_player() != tmpPlayer.getI_player()
                     )
 
@@ -116,11 +137,18 @@ public class Minimax {
                 i_counter++;
                 int []res = new int[2];
                 res[0] = (n.getX() * 8) + n.getY();
-                res[1] = ((n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1)) * 8) + n.getY() - 1;
+                res[1] = (
+                        (
+                                n.getX() +
+                                        (n.getPlayer().getI_player() == General.BLACK ? 1 : -1)
+                        )
+                                * 8)
+                        + n.getY() + 1;
                 return res;
             }
 
-            if (n.isValidMove(
+            if (n.getY() - 1 >= 0
+                    && n.isValidMove(
                     n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1),
                     n.getY() - 1)
                     &&
@@ -145,12 +173,15 @@ public class Minimax {
                 i_counter++;
                 int []res = new int[2];
                 res[0] = (n.getX() * 8) + n.getY();
-                res[1] = ((n.getX() + (n.getPlayer().getI_player() == General.BLACK ? 1 : -1)) * 8) + n.getY() + 1;
+                res[1] = (
+                        (n.getX() +
+                                (n.getPlayer().getI_player() == General.BLACK ? 1 : -1)
+                        ) * 8
+                ) + n.getY() - 1;
                 return res;
             }
 
         }
-
         return null;
     }
 

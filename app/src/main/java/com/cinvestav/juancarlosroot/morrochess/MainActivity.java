@@ -359,6 +359,8 @@ public class MainActivity extends AppCompatActivity {
             );
 
             int []new_move= this.minimax.generateMoves(getBlack());
+            Log.i(TAG, "position0 " + new_move[0]);
+            Log.i(TAG, "position1 " + new_move[1]);
 
             setLastSelected(squares.get(new_move[0]));
 
